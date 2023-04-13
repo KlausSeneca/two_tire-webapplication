@@ -27,7 +27,7 @@ Change the directory to the network from the root: cd terraform/finalProject/net
 tf init
 tf plan
 tf apply
-Change the directory to the webservers from the root: cd terraform/finalProject/webservers. 
+2)Change the directory to the webservers from the root: cd terraform/finalProject/webservers. 
 tf init
 tf plan
 tf apply
