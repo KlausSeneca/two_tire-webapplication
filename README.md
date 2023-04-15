@@ -52,6 +52,8 @@ Command: ssh -i dev-key ec2-user@private_ip of the vm 6
 test the ssh by running the command 
 ansible -i hosts.txt linux -m ping
 expected return is a green text with pong as result
+Run the command  ansible-playbook MyPlaybook.yaml
+this will install the apache server in our linux webservers.
 Destroy webservers cd environment/finalProject/webservers
 terraform destroy
 Destroy network  cd environment/finalProject/network
