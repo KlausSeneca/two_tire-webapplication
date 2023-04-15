@@ -1,0 +1,41 @@
+- hosts: linux
+  gather_facts: True
+  become: yes
+  vars:
+    source_file: ./index.html
+    dest_file: /var/www/html
+   
+  tasks:
+    - name: Install Apache Web Server
+      yum: name=httpd state=latest
+      when: ansible_os_family == "RedHat"
+      
+    - name: Install Apache Web Server
+      package: name=httpd state=latest
+      when: ansible_os_family == "Amazon"
+    
+    - name: Print Linux Family
+      debug: var=ansible_os_family
+      
+    - name: Copy index.html
+      copy: src={{ source_file }} dest={{ dest_file }} mode=0555
+      notify: Restart Apache
+      
+    - name: Start Apache Web Server
+      service: name=httpd state=started enabled=yes
+      
+    - shell: /usr/bin/uptime
+      register: result
+      
+    - name: Print result variable
+      debug: 
+        var: result
+    
+    - name: Print debug message
+      debug: 
+        msg: "The result was {{ result }}"
+      
+    
+  handlers:
+    - name: Restart Apache
+      service: name=httpd state=restarted
