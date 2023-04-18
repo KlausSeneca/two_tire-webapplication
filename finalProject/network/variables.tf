@@ -1,7 +1,7 @@
 # Default tags
 variable "default_tags" {
   default = {
-    "Owner" = "Klaus Cepani",
+    "Owner" = "Group9",
     "App"   = "Web"
   }
   type        = map(any)
