@@ -1,7 +1,7 @@
 # Default tags
 output "default_tags" {
   value = {
-    "Owner" = "Group 9"
+    "Owner" = "Group9"
     "App"   = "Web"
   }
 }
