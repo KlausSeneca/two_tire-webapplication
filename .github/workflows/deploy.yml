@@ -97,6 +97,7 @@ jobs:
       - name: Terraform Show - webservers
         id: show_webservers
         run: terraform show -no-color tf_webservers.plan > /tmp/webservers_plan.txt
+        working-directory: ./finalProject/webservers
 
       - name: Display Terraform Plan
         if: github.event_name == 'pull_request'
