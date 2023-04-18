@@ -18,7 +18,7 @@ data "aws_ami" "latest_amazon_linux" {
 data "terraform_remote_state" "network" { 
   backend = "s3"
   config = {
-    bucket = "finalprojectg9" // Bucket from where to GET Terraform State
+    bucket = "joridfinal" // Bucket from where to GET Terraform State
     key    = "final-net/terraform.tfstate" // Object name in the bucket to GET Terraform State
     region = "us-east-1"                            // Region where bucket created
   }
@@ -105,11 +105,11 @@ resource "aws_security_group" "webserver1_sg" {
   vpc_id      = data.terraform_remote_state.network.outputs.vpc_id
 
   ingress {
-    description = "SSH from private IP of CLoud9 machine"
+    description = "SSH "
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["${var.my_private_ip}/32", "${var.my_public_ip}/32"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
     description      = "HTTP from everywhere"
@@ -166,7 +166,7 @@ resource "aws_security_group" "webserver2_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["${var.my_private_ip}/32", "${var.my_public_ip}/32"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
     description      = "HTTP from everywhere"
@@ -223,7 +223,7 @@ resource "aws_security_group" "webserver3_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["${var.my_private_ip}/32", "${var.my_public_ip}/32"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
     description      = "HTTP from everywhere"
@@ -279,7 +279,7 @@ resource "aws_security_group" "bastion_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["${var.my_private_ip}/32", "${var.my_public_ip}/32"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
     description      = "HTTP from everywhere"
