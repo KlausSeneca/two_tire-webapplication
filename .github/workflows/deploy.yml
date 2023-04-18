@@ -25,10 +25,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     env:
-      GITHUB_TOKEN: ${{ secrets.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 }}
+      GITHUB_TOKEN: ${{ secrets.AWS_ACCESS }}
       AWS_ACCESS_KEY_ID: ${{ secrets.ASIAYWIFADII2GNZX7GP }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.TR0Pg8qbP3SY1pxnACeeUmal8QBU3gYh5Q0NsdW }}
-      AWS_SESSION_TOKEN: ${{ secrets.FwoGZXIvYXdzEGoaDGQWNXNBPaCZVCCQoyK8ATWETdJTwOf8OKjXwa6zwVAQtrt1wDEzrClOcPyfCxKcJxnUQDmfCbjIBhm/HS0BxmFJB/LTt/OVHMio0MDqxV7YVFRmWpJeAOeP18nfTM9SCU4K3SHCiinMSYJe9+/0yTFZc2Na7vWGqVn2SucnW3ESjEZ+B9S+j2PP1vMdJ5yJ5pXC5RR3UM7B4XelWgaLUtNQNE57FvmzIUjxO1HT5cznY7prEsbroKi323JF3yJlRzok3j+rag+2cd7+KN3C96EGMi3SMFmpfX1bKPKx7OIQvR2enW6nysLG0rrFBFaWMlo+gDpE5AtH+YMuLGQvBcM}}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET}}
+      AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION}}
      
     steps:
       - name: Checkout
