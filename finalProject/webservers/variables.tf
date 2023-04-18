@@ -17,17 +17,6 @@ variable "env" {
   description = "Deployment Environment"
 }
 
-variable "my_private_ip" {
-  type        = string
-  default     = "172.31.78.143"
-  description = "Private IP of Cloud 9"
-}
-
-variable "my_public_ip" {
-  type        = string
-  default     = "44.210.239.10"
-  description = "Public IP of Cloud 9"
-}
 
 variable "service_ports" {
   type        = list(string)
