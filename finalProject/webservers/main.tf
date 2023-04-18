@@ -219,7 +219,7 @@ resource "aws_security_group" "webserver3_sg" {
   vpc_id      = data.terraform_remote_state.network.outputs.vpc_id
 
   ingress {
-    description = "SSH from private IP of CLoud9 machine"
+    description = "SSH from everywhere"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
