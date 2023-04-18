@@ -25,8 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     env:
-      GITHUB_TOKEN: ${{ secrets.AWS_ACCESS }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.ASIAYWIFADII2GNZX7GP }}
+      GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET}}
       AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION}}
      
@@ -102,7 +102,7 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.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 }}
+          github-token: ${{ secrets.GIT_TOKEN }}
           script: |
             const fs = require("fs");
             const plan = fs.readFileSync("/tmp/network_plan.txt", "utf8") + fs.readFileSync("/tmp/webservers_plan.txt", "utf8");
