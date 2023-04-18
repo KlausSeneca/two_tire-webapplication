@@ -1,0 +1,136 @@
+name: Terraform - Production
+
+on:
+  push:
+    branches:
+      - prod
+    paths:
+      - finalProject/network/**
+      - finalProject/webservers/**
+
+  pull_request:
+    branches:
+      - prod
+    paths: 
+      - finalProject/network/**
+      - finalProject/webservers/**
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  terraform:
+    name: "Terraform"
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      GITHUB_TOKEN: ${{ secrets.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 }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.ASIAYWIFADII2GNZX7GP }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.TR0Pg8qbP3SY1pxnACeeUmal8QBU3gYh5Q0NsdW/ }}
+      AWS_SESSION_TOKEN: ${{ secrets.FwoGZXIvYXdzEGoaDGQWNXNBPaCZVCCQoyK8ATWETdJTwOf8OKjXwa6zwVAQtrt1wDEzrClOcPyfCxKcJxnUQDmfCbjIBhm/HS0BxmFJB/LTt/OVHMio0MDqxV7YVFRmWpJeAOeP18nfTM9SCU4K3SHCiinMSYJe9+/0yTFZc2Na7vWGqVn2SucnW3ESjEZ+B9S+j2PP1vMdJ5yJ5pXC5RR3UM7B4XelWgaLUtNQNE57FvmzIUjxO1HT5cznY7prEsbroKi323JF3yJlRzok3j+rag+2cd7+KN3C96EGMi3SMFmpfX1bKPKx7OIQvR2enW6nysLG0rrFBFaWMlo+gDpE5AtH+YMuLGQvBcM=}}
+     
+      steps:
+      - name: Checkout
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.1.9
+
+      - name: Terraform fmt - network
+        id: fmt_network
+        run: terraform fmt
+        continue-on-error: true
+        working-directory: ./finalProject/network
+
+      - name: Terraform Init - network
+        id: init_network
+        run: terraform init
+        working-directory: ./finalProject/network
+
+      - name: Terraform Validate - network
+        id: validate_network
+        run: terraform validate -no-color
+        working-directory: ./finalProject/network
+
+      - name: Terraform Plan - network
+        id: plan_network
+        run: terraform plan -input=false -no-color -out=tf_network.plan
+        working-directory: ./finalProject/network
+        continue-on-error: true
+
+      - name: Terraform fmt - webservers
+        id: fmt_webservers
+        run: terraform fmt
+        continue-on-error: true
+        working-directory: ./finalProject/webservers
+
+      - name: Terraform Init - webservers
+        id: init_webservers
+        run: terraform init
+        working-directory: ./finalProject/webservers
+
+      - name: Terraform Validate - webservers
+        id: validate_webservers
+        run: terraform validate -no-color
+        working-directory: ./finalProject/webservers
+
+      - name: Terraform Plan - webservers
+        id: plan_webservers
+        run: terraform plan -input=false -no-color -out=tf_webservers.plan
+        working-directory: ./finalProject/webservers
+        continue-on-error: true
+
+      - name: Get network plan result
+        run: echo "${{ steps.plan_network.outputs.stdout }}"
+
+      - name: Terraform Show - network
+        id: show_network
+        run: terraform show -no-color tf_network.plan > /tmp/network_plan.txt
+        working-directory: ./finalProject/network
+
+      - name: Get webservers plan result
+        run: echo "${{ steps.plan_webservers.outputs.stdout }}"
+
+      - name: Terraform Show - webservers
+        id: show_webservers
+        run: terraform show -no-color tf_webservers.plan > /tmp/webservers_plan.txt
+       - uses: actions/github-script@v6
+  if: github.event_name == 'pull_request'
+  with:
+    github-token: ${{ secrets.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 }}
+    script: |
+      const fs = require("fs");
+      const plan = fs.readFileSync("/tmp/plan.txt", "utf8");
+      const maxGitHubBodyCharacters = 65536;
+      function chunkSubstr(str, size) {
+        const numChunks = Math.ceil(str.length / size)
+        const chunks = new Array(numChunks)
+        for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+          chunks[i] = str.substr(o, size)
+        }
+        return chunks
+      }
+      // Split the Terraform plan into chunks if it's too big and can't fit into the GitHub Action
+      var plans = chunkSubstr(plan, maxGitHubBodyCharacters); 
+      for (let i = 0; i < plans.length; i++) {
+        const output = `### ${{ inputs.plan-title }} Part # ${i + 1}
+        #### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+        #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+        #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+        <details><summary>Show Plan</summary>
+        \`\`\`\n
+        ${plans[i]}
+        \`\`\`
+        </details>
+        Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working`;
+        console.log(output);
+      }
+
+
+    
