@@ -52,7 +52,7 @@ ansible -i hosts.txt linux -m ping
 expected return is a green text with pong as result
 Run the command  ansible-inventory -i aws_ec2.yaml --graph
 to see the tags selected
-Run the command ansible-playbook -i aws_ec2.yaml Myplaybook.yaml
+Run the command ansible-playbook -i aws_ec2.yaml MyPlaybook.yaml
 this will install the apache server in our linux webservers.
 
 Destroy webservers cd environment/finalProject/webservers
