@@ -18,7 +18,7 @@ data "aws_ami" "latest_amazon_linux" {
 data "terraform_remote_state" "network" { 
   backend = "s3"
   config = {
-    bucket = "joridfinal" // Bucket from where to GET Terraform State
+    bucket = "group-9" // Bucket from where to GET Terraform State
     key    = "final-net/terraform.tfstate" // Object name in the bucket to GET Terraform State
     region = "us-east-1"                            // Region where bucket created
   }
