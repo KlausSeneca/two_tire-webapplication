@@ -13,7 +13,7 @@ ssh-keys needed for the instances:
 //If this is not present 
 
 do the command git clone https://github.com/KlausSeneca/two_tire-webapplication.git
-It will ask for the github_token you should request it 
+It will ask for the github_token you should request it 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
 
 
 Ansible configuration:
@@ -51,6 +51,8 @@ test the ssh by running the command
 ansible -i hosts.txt linux -m ping
 expected return is a green text with pong as result
 Run the command  ansible-inventory -i aws_ec2.yaml --graph
+to see the tags selected
+Run the command ansible-playbook -i aws_ec2.yaml Myplaybook.yaml
 this will install the apache server in our linux webservers.
 
 Destroy webservers cd environment/finalProject/webservers
