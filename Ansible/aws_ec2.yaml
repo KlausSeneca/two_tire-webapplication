@@ -1,0 +1,14 @@
+plugin: aws_ec2
+regions:
+    - us-east-1
+keyed_groups:
+    - key: tags.Owner
+      prefix: tags
+filters:
+    instance-state-name: running
+    tag:Name:
+        - FinalProject-webserver3
+        - FinalProject-webserver2
+compose:
+    ansible_host: public_ip_address
+
