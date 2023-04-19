@@ -25,7 +25,7 @@ variable "private_subnet_cidrs" {
 # Name prefix
 variable "prefix" {
   type        = string
-  default     = "Final-Project"
+  default     = "Assignment"
   description = "Name prefix"
 }
 
