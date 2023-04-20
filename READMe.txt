@@ -13,7 +13,7 @@ ssh-keys needed for the instances:
 //If this is not present 
 
 do the command git clone https://github.com/KlausSeneca/two_tire-webapplication.git
-It will ask for the github_token you should request it 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
+It will ask for the github_token you should request it 
 
 
 Ansible configuration:
